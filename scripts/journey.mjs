@@ -3,7 +3,7 @@
 // captions are an overlay in the same page (journey/stage.mjs). Frames come from a CDP screencast and
 // are encoded with ffmpeg (needed on PATH).
 // It runs on a real project (lib/realProject.mjs): the dev seed, the built `miloops` server and real MCP agents.
-// Run: npm run build -w miloops (once), then `npm run journey` here.
+// Run: npm run build -w miloops in ../miloops (once), then `npm run journey` here.
 // Env: CHROME_PATH (default /usr/local/bin/google-chrome).
 import { execFileSync } from 'node:child_process';
 import { mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
@@ -24,7 +24,7 @@ process.on('exit', () => project.stop());
 const agentStep = async (text, times = 1) => {
   for (let t = 0; t < 240 && project.agentLog().split(text).length - 1 < times; t++) await wait(500);
 };
-const milo = `data:image/png;base64,${readFileSync(join(root, '../../brand/slack-icon-512.png')).toString('base64')}`;
+const milo = `data:image/png;base64,${readFileSync(join(root, 'scripts/assets/milo-512.png')).toString('base64')}`;
 
 const browser = await chromium.launch({ executablePath: process.env.CHROME_PATH ?? '/usr/local/bin/google-chrome' });
 const page = await (await browser.newContext({ viewport: size })).newPage();

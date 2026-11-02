@@ -3,3 +3,6 @@ dist
 capture-frames
 .vercel
 .env*
+capture/
+.DS_Store
+*.log

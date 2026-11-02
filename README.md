@@ -8,11 +8,16 @@ Static marketing site for [miloops.app](https://miloops.app): Vite + TypeScript,
 
 Shared markup lives in `partials/` (`sprite`, `nav`, `footer`) and is pasted in at build time by `<!-- @include name -->` (see `vite.config.ts`).
 
-Type is Geist Pixel for headlines and labels and Geist for everything else, both self-hosted through `@fontsource`. JS adds the hero "mission field" animation (`src/heroField.ts`, paused off-screen, a still frame with reduced motion), the install box that types through `npx miloops` and the Claude Code and Codex connect commands (`src/cmdCycle.ts`), the looping explainer video (muted, no controls, paused off-screen), the badge scramble, scroll reveals, copy buttons, the MILO avatar and the waitlist form. The pages read fine without it.
+Type is Geist Pixel for headlines and labels, IBM Plex Sans for reading and Geist Mono for code, both self-hosted through `@fontsource`. JS adds the hero "mission field" animation (`src/heroField.ts`, paused off-screen, a still frame with reduced motion), the install box that types through `npx miloops` and the Claude Code and Codex connect commands (`src/cmdCycle.ts`), the looping explainer video (muted, no controls, paused off-screen), the badge scramble, scroll reveals, copy buttons, the MILO avatar and the waitlist form. The pages read fine without it.
 
 ## Run
 
+The MILO avatar comes from the product repo, so clone both side by side:
+
 ```bash
+git clone https://github.com/miloopshq/miloops
+git clone https://github.com/miloopshq/miloops-landing
+cd miloops-landing
 npm install
 npm run dev        # http://localhost:5173, hot reload
 npm run build      # dist/ (static, deploy anywhere)
@@ -27,19 +32,19 @@ The `/specialists` form posts `{ email }` to `/api/waitlist`, a Vercel serverles
 
 It needs two server-side env vars (never exposed to the browser):
 
-| Variable | Value |
-| --- | --- |
-| `RESEND_API_KEY` | A Resend API key with access to Audiences |
+| Variable             | Value                                                             |
+| -------------------- | ----------------------------------------------------------------- |
+| `RESEND_API_KEY`     | A Resend API key with access to Audiences                         |
 | `RESEND_AUDIENCE_ID` | The id of the audience that collects signups (Resend → Audiences) |
 
-Set them in Vercel (project → Settings → Environment Variables, for Production and Preview) and, for local dev, in `apps/landing/.env.local` (git-ignored). Without them the form says the waitlist isn't configured.
+Set them in Vercel (project → Settings → Environment Variables, for Production and Preview) and, for local dev, in `.env.local` (git-ignored). Without them the form says the waitlist isn't configured.
 
 ## Product media
 
-Screenshots and the explainer video (`landing-journey-720.mp4` and its poster) live in `public/media/`; favicons and the OG image in `public/media/brand/`. Both come from the real product on a real project (`scripts/lib/realProject.mjs`): the dev seed in a temp folder, the built `miloops` server, and real MCP agents (`scripts/dev-agent.mjs`) that the scripts answer in the inbox. Nothing is simulated.
+Screenshots and the explainer video (`landing-journey-720.mp4` and its poster) live in `public/media/`; favicons and the OG image in `public/media/brand/`. Both come from the real product on a real project (`scripts/lib/realProject.mjs`): the dev seed in a temp folder, the built `miloops` server, and real MCP agents (`scripts/dev-agent.mjs` in the product repo) that the scripts answer in the inbox. Nothing is simulated.
 
 ```bash
-npm run build -w miloops   # repo root, once and after CLI or app changes
+(cd ../miloops && npm install && npm run build -w miloops)   # once, and after CLI or app changes
 npm run media              # here: every screenshot
 npm run journey            # here: the hero video and poster (needs ffmpeg)
 ```
@@ -56,3 +61,11 @@ npm run capture -- hero mobile  # a subset: hero, desktop, mobile, video
 ```
 
 The video is a scroll-through recording of Home and needs `ffmpeg` on `PATH`.
+
+## Deploy
+
+Production is https://miloops-landing.vercel.app (Vercel project `miloops-landing`). Pushes to `main` deploy it through `.github/workflows/deploy.yml` once the `VERCEL_TOKEN`, `VERCEL_ORG_ID` and `VERCEL_PROJECT_ID` secrets are set; by hand: `npx vercel build --prod && npx vercel deploy --prebuilt --prod`.
+
+## License
+
+[FSL-1.1-ALv2](LICENSE). The MILOOPS and MILO names and artwork are trademarks and aren't covered by the license.

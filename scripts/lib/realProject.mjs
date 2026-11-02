@@ -1,13 +1,13 @@
 // A real MILOOPS project for the capture scripts, set up the way a user has one: the dev seed written into a
 // temp folder, the built `miloops` server serving it, and real MCP agents (scripts/dev-agent.mjs) working it.
-// Needs: npm run build -w miloops.
+// Needs the product repo next to this one (../miloops, or MILOOPS_REPO) with the CLI built: npm run build -w miloops.
 import { execFileSync, spawn } from 'node:child_process';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-const repo = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../../../..');
+const repo = process.env.MILOOPS_REPO ?? path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../../../miloops');
 const cli = path.join(repo, 'packages/cli/dist/cli.js');
 
 /** Seeds a temp project, starts the server and `agents` MCP agents; `stop()` ends them and deletes the folder. */
