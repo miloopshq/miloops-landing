@@ -8,7 +8,7 @@ Static marketing site for [miloops.app](https://miloops.app): Vite + TypeScript,
 
 Shared markup lives in `partials/` (`sprite`, `nav`, `footer`) and is pasted in at build time by `<!-- @include name -->` (see `vite.config.ts`).
 
-Type is Geist Pixel for headlines and labels, IBM Plex Sans for reading and Geist Mono for code, both self-hosted through `@fontsource`. JS adds the hero "mission field" animation (`src/heroField.ts`, paused off-screen, a still frame with reduced motion), the install box that types through `npx miloops` and the Claude Code and Codex connect commands (`src/cmdCycle.ts`), the looping explainer video (muted, no controls, paused off-screen), the badge scramble, scroll reveals, copy buttons, the MILO avatar and the waitlist form. The pages read fine without it.
+Type is Geist Pixel for headlines and labels, IBM Plex Sans for reading and Geist Mono for code, both self-hosted through `@fontsource`. JS adds the hero "mission field" animation (`src/heroField.ts`, paused off-screen, a still frame with reduced motion), the install box that types through `npx miloops-cli` and the Claude Code and Codex connect commands (`src/cmdCycle.ts`), the looping explainer video (muted, no controls, paused off-screen), the badge scramble, scroll reveals, copy buttons, the MILO avatar and the waitlist form. The pages read fine without it.
 
 ## Run
 
@@ -44,7 +44,7 @@ Set them in Vercel (project → Settings → Environment Variables, for Producti
 Screenshots and the explainer video (`landing-journey-720.mp4` and its poster) live in `public/media/`; favicons and the OG image in `public/media/brand/`. Both come from the real product on a real project (`scripts/lib/realProject.mjs`): the dev seed in a temp folder, the built `miloops` server, and real MCP agents (`scripts/dev-agent.mjs` in the product repo) that the scripts answer in the inbox. Nothing is simulated.
 
 ```bash
-(cd ../miloops && npm install && npm run build -w miloops)   # once, and after CLI or app changes
+(cd ../miloops && npm install && npm run build -w miloops-cli)   # once, and after CLI or app changes
 npm run media              # here: every screenshot
 npm run journey            # here: the hero video and poster (needs ffmpeg)
 ```

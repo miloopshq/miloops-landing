@@ -2,14 +2,14 @@
 const CC = '> ';
 
 export const SETUP = [
-  { t: 'npm i -g miloops', type: true },
+  { t: 'npm i -g miloops-cli', type: true },
   { t: 'added 1 package in 2s', cls: 'dim' },
   { t: 'cd fieldnote-app', type: true },
-  { t: 'npx miloops connect claude', type: true },
+  { t: 'npx miloops-cli connect claude', type: true },
   { t: '' },
   { t: 'MILOOPS · connect Claude Code', cls: 'acc' },
   { t: '  /milo command   added        .claude/commands/milo.md' },
-  { t: '  MCP server      registered   claude mcp add miloops -- npx -y miloops mcp' },
+  { t: '  MCP server      registered   claude mcp add miloops -- npx -y miloops-cli mcp' },
   { t: '  In Claude Code: /milo new "&lt;idea&gt;", /milo resume, /milo status, /milo inbox', cls: 'dim' },
   { t: '' },
   { t: 'miloops', type: true },

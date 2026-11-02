@@ -1,6 +1,6 @@
 // Re-captures the command-center screenshots in public/media/ from the real app, on a real project: the dev
 // seed in a temp folder, the built `miloops` server, and real MCP agents working it (lib/realProject.mjs).
-// Run: npm run build -w miloops in ../miloops (once), then `npm run media` here.
+// Run: npm run build -w miloops-cli in ../miloops (once), then `npm run media` here.
 // Env: CHROME_PATH (default /usr/local/bin/google-chrome).
 import { writeFileSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';

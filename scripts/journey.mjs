@@ -3,7 +3,7 @@
 // captions are an overlay in the same page (journey/stage.mjs). Frames come from a CDP screencast and
 // are encoded with ffmpeg (needed on PATH).
 // It runs on a real project (lib/realProject.mjs): the dev seed, the built `miloops` server and real MCP agents.
-// Run: npm run build -w miloops in ../miloops (once), then `npm run journey` here.
+// Run: npm run build -w miloops-cli in ../miloops (once), then `npm run journey` here.
 // Env: CHROME_PATH (default /usr/local/bin/google-chrome).
 import { execFileSync } from 'node:child_process';
 import { mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
@@ -59,7 +59,9 @@ await page.locator('.dialog.onboarding').waitFor({ timeout: 20000 });
 await page.getByRole('button', { name: 'Get started' }).click();
 await page.locator('.node').first().waitFor({ timeout: 15000 });
 await setVisible(false);
-await stage('card', 'title');
+// No title card: the video opens on the first scene, so it reads as a video from the first frame.
+await caption('Setup once', 'Install once. One command connects Claude Code or Codex.');
+await stage('term', 'fieldnote-app — zsh', []);
 
 rmSync(framesDir, { recursive: true, force: true });
 mkdirSync(framesDir, { recursive: true });
@@ -73,7 +75,6 @@ cdp.on('Page.screencastFrame', ({ data, metadata, sessionId }) => {
 });
 await cdp.send('Page.startScreencast', { format: 'jpeg', quality: 90, maxWidth: size.width, maxHeight: size.height });
 
-await wait(2800);
 await term('fieldnote-app — zsh', SETUP, 'Setup once', 'Install once. One command connects Claude Code or Codex.');
 await term(
   'fieldnote-app — claude',
