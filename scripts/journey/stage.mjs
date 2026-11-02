@@ -55,7 +55,7 @@ export function installStage(milo) {
       ov.innerHTML =
         kind === 'title'
           ? `<div class="st-card"><img src="${milo}" alt="">${word}<p>Mission control for your AI coding agents.</p></div>`
-          : `<div class="st-card"><img src="${milo}" alt="">${word}<code><span>$</span> npx miloops</code>
+          : `<div class="st-card"><img src="${milo}" alt="">${word}<code><span>$</span> npx miloops-cli</code>
              <small>Works with Claude Code, Codex and any MCP agent</small><small>miloops.app</small></div>`;
       ov.classList.remove('off');
     },
