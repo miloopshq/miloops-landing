@@ -1,4 +1,5 @@
 import { type MiloState, mountMilo } from '@miloops-hq/milo-avatar/mount';
+import { initCloudScene } from './cloudScene';
 import { initCmdCycle } from './cmdCycle';
 import { initCopy } from './copy';
 import { $, $$ } from './dom';
@@ -41,6 +42,7 @@ if (milo) mountMilo(milo, { size: 'sm', state: 'idle', framed: false });
 for (const el of $$('[data-spec]'))
   mountMilo(el, { size: Number(el.dataset.size ?? 1.5), state: el.dataset.spec as MiloState, framed: false });
 
+initCloudScene(reducedMotion);
 initNav();
 initReveal(reducedMotion);
 initScramble(reducedMotion);

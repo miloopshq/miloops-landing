@@ -5,6 +5,7 @@ Static marketing site for [miloops.app](https://miloops.app): Vite + TypeScript,
 - `index.html`: Home, the story (mission, crew, MILO, you) and what's coming.
 - `features/index.html`: everything that ships today, and the upcoming directions in detail.
 - `specialists/index.html`: the specialist marketplace story and its waitlist.
+- `cloud/index.html`: MILOOPS Cloud (coming soon), with MILO on a pixel cloud (`src/cloudScene.ts`) and its own waitlist.
 
 Shared markup lives in `partials/` (`sprite`, `nav`, `footer`) and is pasted in at build time by `<!-- @include name -->` (see `vite.config.ts`).
 
@@ -32,10 +33,11 @@ The `/specialists` form posts `{ email }` to `/api/waitlist`, a Vercel serverles
 
 It needs two server-side env vars (never exposed to the browser):
 
-| Variable             | Value                                                             |
-| -------------------- | ----------------------------------------------------------------- |
-| `RESEND_API_KEY`     | A Resend API key with access to Audiences                         |
-| `RESEND_AUDIENCE_ID` | The id of the audience that collects signups (Resend → Audiences) |
+| Variable                   | Value                                                                                                          |
+| -------------------------- | -------------------------------------------------------------------------------------------------------------- |
+| `RESEND_API_KEY`           | A Resend API key with access to Audiences                                                                      |
+| `RESEND_AUDIENCE_ID`       | The id of the audience that collects signups (Resend → Audiences)                                              |
+| `RESEND_CLOUD_AUDIENCE_ID` | Optional: a separate audience for the `/cloud` waitlist. Without it, Cloud signups go to `RESEND_AUDIENCE_ID`. |
 
 Set them in Vercel (project → Settings → Environment Variables, for Production and Preview) and, for local dev, in `.env.local` (git-ignored). Without them the form says the waitlist isn't configured.
 

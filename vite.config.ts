@@ -61,6 +61,7 @@ export default defineConfig({
         main: resolve(__dirname, 'index.html'),
         features: resolve(__dirname, 'features/index.html'),
         specialists: resolve(__dirname, 'specialists/index.html'),
+        cloud: resolve(__dirname, 'cloud/index.html'),
       },
     },
   },

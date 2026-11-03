@@ -1,6 +1,6 @@
 import { $ } from './dom';
 
-/** Specialists waitlist: POSTs { email } to the landing's /api/waitlist function, which adds it to Resend. */
+/** Waitlist forms (/specialists, /cloud): POST { email, list } to /api/waitlist, which adds it to Resend. */
 const ENDPOINT = (import.meta.env.VITE_WAITLIST_URL as string | undefined) ?? '/api/waitlist';
 
 export function initWaitlist() {
@@ -20,12 +20,13 @@ export function initWaitlist() {
       const r = await fetch(ENDPOINT, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-        body: JSON.stringify({ email, company: data.get('company')?.toString() ?? '' }),
+        body: JSON.stringify({ email, company: data.get('company')?.toString() ?? '', list: form.dataset.list }),
       });
       const body = (await r.json().catch(() => ({}))) as { error?: string };
       if (!r.ok) throw new Error(body.error ?? 'That didn’t go through. Please try again.');
       form.classList.add('is-done');
-      if (status) status.textContent = 'You’re on the list. We’ll email you when specialists open.';
+      if (status)
+        status.textContent = form.dataset.done ?? 'You’re on the list. We’ll email you when specialists open.';
     } catch (err) {
       if (status) status.textContent = (err as Error).message;
     } finally {
