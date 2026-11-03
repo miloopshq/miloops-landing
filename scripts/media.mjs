@@ -187,6 +187,12 @@ await zoom('command-center-knowledge', ['.knowledge-view'], { aspect: 16 / 10, p
 await page.keyboard.press('Escape');
 await wait(500);
 
+// Acceptance criteria on a ticket, with the knowledge it brings.
+await page.locator('.node', { hasText: 'Instrument current' }).first().click();
+await page.locator('.criteria-section').waitFor({ timeout: 15000 });
+await wait(1000);
+await zoom('command-center-criteria', ['.inspector'], { aspect: 4 / 5, pad: 0 });
+
 // Phone view of the same project.
 const cdp = await ctx.newCDPSession(page);
 await cdp.send('Emulation.setDeviceMetricsOverride', { width: 390, height: 844, deviceScaleFactor: 2, mobile: true });
