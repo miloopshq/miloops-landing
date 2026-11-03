@@ -166,6 +166,27 @@ await zoom('command-center-decisions', ['.dv-detail .d-head', '.dv-detail .facts
 await page.locator('.decisions-btn').click();
 await wait(1500);
 
+// Discovery: the plan-only mission has a brief waiting for review.
+await page.locator('.mission-btn').click();
+await page.getByRole('menuitem').filter({ hasText: 'Team workspaces' }).first().click();
+await page.getByRole('button', { name: 'Review brief' }).click({ timeout: 15000 });
+await page.locator('.brief-dialog').waitFor();
+await wait(800);
+await zoom('command-center-discovery', ['.brief-dialog'], { aspect: 16 / 10, pad: 24 });
+await page.keyboard.press('Escape');
+await page.locator('.mission-btn').click();
+await page.getByRole('menuitem').filter({ hasText: 'Offline-first' }).first().click();
+await wait(1200);
+
+// Knowledge: everything on record, confirmed, assumed and waiting for review.
+await page.locator('.knowledge-btn').click();
+await page.locator('.knowledge-view').waitFor();
+await page.locator('.kn-filters .chip', { hasText: 'All' }).click();
+await wait(800);
+await zoom('command-center-knowledge', ['.knowledge-view'], { aspect: 16 / 10, pad: 16 });
+await page.keyboard.press('Escape');
+await wait(500);
+
 // Phone view of the same project.
 const cdp = await ctx.newCDPSession(page);
 await cdp.send('Emulation.setDeviceMetricsOverride', { width: 390, height: 844, deviceScaleFactor: 2, mobile: true });
