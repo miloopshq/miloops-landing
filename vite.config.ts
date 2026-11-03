@@ -25,7 +25,7 @@ const SITE_URL = (
   process.env.SITE_URL ??
   (process.env.VERCEL_PROJECT_PRODUCTION_URL
     ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
-    : 'https://miloops-landing.vercel.app')
+    : 'https://miloops.vercel.app')
 ).replace(/\/$/, '');
 
 /** Serves api/waitlist.ts in `vite dev` the way Vercel does in production, with env from .env.local. */
