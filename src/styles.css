@@ -1592,3 +1592,11 @@ code {
     opacity: 0.6;
   }
 }
+
+/* The product name in running text: Geist Pixel, in white, wherever MILOOPS (Local, Cloud) is mentioned. */
+.mark {
+  font-family: var(--pixel);
+  font-weight: 400;
+  color: var(--text-hi);
+  white-space: nowrap;
+}
