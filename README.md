@@ -66,7 +66,7 @@ The video is a scroll-through recording of Home and needs `ffmpeg` on `PATH`.
 
 ## Deploy
 
-Production is https://miloops-landing.vercel.app (Vercel project `miloops-landing`). Pushes to `main` deploy it through `.github/workflows/deploy.yml` once the `VERCEL_TOKEN`, `VERCEL_ORG_ID` and `VERCEL_PROJECT_ID` secrets are set; by hand: `npx vercel build --prod && npx vercel deploy --prebuilt --prod`.
+Production is https://miloops.vercel.app (Vercel project `miloops`). Pushes to `main` deploy it through `.github/workflows/deploy.yml` once the `VERCEL_TOKEN`, `VERCEL_ORG_ID` and `VERCEL_PROJECT_ID` secrets are set; by hand: `npx vercel build --prod && npx vercel deploy --prebuilt --prod`.
 
 ## License
 
