@@ -1,7 +1,8 @@
-// Vercel serverless function: POST /api/waitlist adds an email to the Resend audience behind the
-// /specialists waitlist. Server-only env (Vercel project settings, or apps/landing/.env.local in dev):
-//   RESEND_API_KEY      a Resend API key with access to Audiences
-//   RESEND_AUDIENCE_ID  the audience that collects waitlist signups
+// Vercel serverless function: POST /api/waitlist adds an email to a Resend audience. Server-only env (Vercel
+// project settings, or .env.local in dev):
+//   RESEND_API_KEY            a Resend API key with access to Audiences
+//   RESEND_AUDIENCE_ID        the audience that collects waitlist signups (/specialists, and the fallback)
+//   RESEND_CLOUD_AUDIENCE_ID  optional: a separate audience for the /cloud waitlist (`list: "cloud"`)
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 const json = (status: number, body: unknown) =>
   new Response(JSON.stringify(body), { status, headers: { 'Content-Type': 'application/json' } });
@@ -11,7 +12,7 @@ export async function POST(request: Request): Promise<Response> {
   const audience = process.env.RESEND_AUDIENCE_ID;
   if (!key || !audience) return json(503, { error: 'Waitlist is not configured.' });
 
-  let body: { email?: unknown; company?: unknown };
+  let body: { email?: unknown; company?: unknown; list?: unknown };
   try {
     body = (await request.json()) as typeof body;
   } catch {
@@ -22,7 +23,8 @@ export async function POST(request: Request): Promise<Response> {
   const email = typeof body.email === 'string' ? body.email.trim().toLowerCase() : '';
   if (!EMAIL.test(email) || email.length > 254) return json(400, { error: 'That email address doesn’t look right.' });
 
-  const r = await fetch(`https://api.resend.com/audiences/${audience}/contacts`, {
+  const target = (body.list === 'cloud' && process.env.RESEND_CLOUD_AUDIENCE_ID) || audience;
+  const r = await fetch(`https://api.resend.com/audiences/${target}/contacts`, {
     method: 'POST',
     headers: { Authorization: `Bearer ${key}`, 'Content-Type': 'application/json' },
     body: JSON.stringify({ email, unsubscribed: false }),
