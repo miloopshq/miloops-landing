@@ -43,9 +43,9 @@ An item's score starts at half its kind's weight, then adds urgency, held ticket
 
 ## Errors
 
-Unlike the other config files, a broken `attention.json` never stops the list: each bad value falls back to its default, and every problem is shown in **Settings → Attention**.
+A broken `attention.json` never stops the list: each bad value falls back to its default, and every problem is shown in **Settings → Attention**. (`policy.json` also falls back, to its strict defaults; `verification.json` doesn't, because running no checks would let unchecked work through.)
 
 ```text
-weights.chat: unknown kind (one of question, blocked, replan, …)
-interrupt: expected a number from 0 to 200
+unknown kind "chat" in "weights" (one of question, blocked, replan, …)
+"interrupt" must be a number from 0 to 200
 ```

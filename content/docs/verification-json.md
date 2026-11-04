@@ -61,7 +61,7 @@ Checks run without your tokens in their environment, and token-shaped output is 
 
 ## Errors
 
-The file is validated as a whole and every problem is listed in **Settings → Verification**; until it's valid, it isn't used. Unknown keys are errors. Examples:
+The file is validated as a whole and every problem is listed in **Settings → Verification**. Until it's valid, a completion that needs checks ends with an error and waits for you: running no checks would let unchecked work through. Unknown keys are errors. Examples:
 
 ```text
 "run" names unknown check "lint"
