@@ -142,7 +142,7 @@ await wait(600);
 // Everything that needs you, ranked: questions, the new plan, the brief, a risky change, knowledge to review.
 await page.locator('.attention-queue .att-item.k-question').first().waitFor({ timeout: 20000 });
 await wait(1200);
-await zoom('command-center-queue', ['.inbox-part'], { aspect: 4 / 5, pad: 0 });
+await zoom('command-center-queue', ['.inbox-part'], { aspect: 1, pad: 0 });
 
 await page.locator('.att-item.k-question:not(.u-fyi) > button').first().click();
 await chip().waitFor({ timeout: 20000 });

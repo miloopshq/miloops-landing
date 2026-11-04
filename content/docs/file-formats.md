@@ -98,9 +98,9 @@ id: D-3
 mission: offline-first-sync-for-fieldnote
 ticket: '3'
 ticket_key: '#3'
-decided_by: mpocock
+decided_by: arekom
 decided_at: 2026-11-03T23:27:05.743Z
-participants: [mpocock, operator]
+participants: [arekom, operator]
 source: tracker
 supersedes: D-2
 ---
