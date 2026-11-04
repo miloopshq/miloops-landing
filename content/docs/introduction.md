@@ -5,7 +5,7 @@ MILOOPS is a local command center for big work done by AI coding agents: you des
 ## How it works
 
 1. You describe a mission, usually from your agent's chat with `/milo new "<idea>"`.
-2. The agent frames it with you, studies the repo, and charts a **mission map**: a set of decision tickets (`research`, `grilling`, `prototype`, `task`, `execute`, `review`) wired with blocking edges.
+2. The agent frames it with you, studies the repo, and charts a **mission map**: a set of decision tickets wired with blocking edges.
 3. Agents claim tickets over [MCP](/docs/mcp-tools/), ask you questions, record decisions with evidence, and prove their work against the checks and criteria you agreed on.
 4. You steer in the **command center**, a web app that `miloops` serves on your machine, or straight from the chat with [`/milo`](/docs/milo-commands/).
 
