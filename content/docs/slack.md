@@ -1,0 +1,31 @@
+# Slack
+
+Get urgent agent questions, approvals and mission updates in Slack, through your own Slack app running from your machine.
+
+## Set up
+
+```bash
+miloops connect slack
+```
+
+This starts the command center on the Slack setup. It walks you through:
+
+1. creating your own Slack app from a manifest (Socket Mode, so no public URL is needed);
+2. pasting its app-level token (`xapp-…`) and bot token (`xoxb-…`);
+3. picking who may use it and where notifications go.
+
+Tokens are saved in your [config folder](/docs/personal-settings/) (`credentials.json`, mode `0600`), or read from `$MILOOPS_SLACK_APP_TOKEN` and `$MILOOPS_SLACK_BOT_TOKEN`. Only one `miloops` process at a time holds the Socket Mode connection.
+
+The app asks for these bot scopes: `commands`, `chat:write`, `im:write`, `channels:history`, `groups:history`, `im:history`, `mpim:history`, `users:read`, and optionally `users:read.email` (to recognise you by your git email).
+
+## What it does
+
+- **Questions:** an interrupting question becomes its own message with answer buttons. Others go into the mission's digest as a line, to answer in MILOOPS. With channel `none`, everything goes to the digest. See [Waiting on you](/docs/waiting-on-you/).
+- **Approvals:** sign off verified work from Slack.
+- **Notifications:** to a DM or a channel, for the events you pick: `awaiting`, `blocked`, `mission.done` (default) and `resolved`, with full detail or titles only.
+- **`/milo` slash command:** `decide [text]`, `status [mission]`, `inbox`, `help`.
+- **Save as decision:** a message shortcut that records a thread as a decision.
+
+## Settings
+
+Change notifications, allowed people and the target in the command center's Slack settings. They're stored in `slack.json` in your config folder. Per repo, `.miloops/.agents/slack.json` tracks which Slack message carries which agent question.

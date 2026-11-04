@@ -2,6 +2,7 @@ import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { defineConfig, loadEnv, type Plugin } from 'vite';
 import type * as Waitlist from './api/waitlist';
+import { generateDocs } from './scripts/docs/generate.mjs';
 
 /** `<!-- @include nav -->` pastes partials/nav.html, so the pages share one nav, footer and icon sprite. */
 function partials(): Plugin {
@@ -18,8 +19,7 @@ function partials(): Plugin {
 
 /**
  * Absolute base for share cards (og:image must be an absolute URL): $SITE_URL, else the production URL Vercel
- * provides at build time, else the current production address. Switch it to https://miloops.app once that
- * domain points at Vercel (or set SITE_URL in the Vercel project).
+ * provides at build time, else the production address, https://miloops.vercel.app.
  */
 const SITE_URL = (
   process.env.SITE_URL ??
@@ -27,6 +27,28 @@ const SITE_URL = (
     ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
     : 'https://miloops.vercel.app')
 ).replace(/\/$/, '');
+
+/**
+ * The docs: content/docs/*.md and nav.json become docs/<slug>/index.html pages (build inputs), raw Markdown at
+ * /docs/<slug>.md, and /llms.txt + /llms-full.txt (scripts/docs/generate.mjs). Generated before every build and
+ * dev start; in dev, editing content/docs regenerates and reloads the page.
+ */
+function docs(): Plugin {
+  const root = __dirname;
+  return {
+    name: 'docs',
+    config: () => ({ build: { rollupOptions: { input: generateDocs({ root, siteUrl: SITE_URL }) } } }),
+    configureServer(server) {
+      const dir = resolve(root, 'content/docs');
+      server.watcher.add(dir);
+      server.watcher.on('all', (_event, file) => {
+        if (!file.startsWith(dir)) return;
+        generateDocs({ root, siteUrl: SITE_URL });
+        server.ws.send({ type: 'full-reload' });
+      });
+    },
+  };
+}
 
 /** Serves api/waitlist.ts in `vite dev` the way Vercel does in production, with env from .env.local. */
 function devApi(): Plugin {
@@ -54,7 +76,7 @@ function devApi(): Plugin {
 }
 
 export default defineConfig({
-  plugins: [partials(), devApi()],
+  plugins: [docs(), partials(), devApi()],
   build: {
     rollupOptions: {
       input: {
