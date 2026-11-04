@@ -217,6 +217,27 @@ await wait(600);
 await zoom('command-center-risk', ['.set-sec:has-text("Risk policy")'], { aspect: 4 / 3, pad: 16 });
 await page.keyboard.press('Escape');
 
+// Parallel work: the overlap warning in the queue, then the ticket with the files its agent expects to change.
+const overlap = page.locator('.att-item.k-overlap').first();
+await overlap.waitFor({ timeout: 20000 });
+await overlap.scrollIntoViewIfNeeded();
+await wait(600);
+await zoom('command-center-overlap', ['.att-item.k-overlap'], { aspect: 16 / 9, pad: 20 });
+await page.locator('.node', { hasText: 'Show sync status' }).first().dispatchEvent('click');
+await page.locator('.inspector', { hasText: 'Expects to change' }).waitFor({ timeout: 15000 });
+await wait(600);
+await zoom('command-center-parallel-ticket', ['.inspector'], { aspect: 4 / 5, pad: 0 });
+
+// Settings → Workspaces: a separate copy of the repo for each task.
+await page.getByRole('button', { name: 'Settings', exact: true }).click();
+const ws = page.locator('.set-sec', { hasText: 'Workspaces' });
+await ws.scrollIntoViewIfNeeded();
+// Shown switched on, the way a team running several agents would use it.
+await ws.getByRole('button', { name: 'Off' }).first().click();
+await wait(900);
+await zoom('command-center-workspaces', ['.set-sec:has-text("Workspaces")'], { aspect: 16 / 9, pad: 16 });
+await page.keyboard.press('Escape');
+
 // Phone view of the same project.
 const cdp = await ctx.newCDPSession(page);
 await cdp.send('Emulation.setDeviceMetricsOverride', { width: 390, height: 844, deviceScaleFactor: 2, mobile: true });
