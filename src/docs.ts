@@ -73,7 +73,7 @@ function initSidebarToggle() {
     const open = !nav.classList.contains('is-open');
     nav.classList.toggle('is-open', open);
     button.setAttribute('aria-expanded', String(open));
-    button.textContent = open ? 'Close' : 'Menu';
+    button.textContent = open ? 'Close' : 'Docs menu';
   });
 }
 
