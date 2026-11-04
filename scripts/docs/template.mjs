@@ -100,7 +100,7 @@ ${sidebar(nav, page.slug)}
       </aside>
       <article class="docs-main">
         <div class="docs-top">
-          <button class="docs-menu-btn" type="button" aria-controls="docs-nav" aria-expanded="false">Menu</button>
+          <button class="docs-menu-btn" type="button" aria-controls="docs-nav" aria-expanded="false">Docs menu</button>
           <p class="docs-crumb">Docs <span aria-hidden="true">/</span> ${escape(section.title)}</p>
           ${copyMenu(page.slug)}
         </div>

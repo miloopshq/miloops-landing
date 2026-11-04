@@ -222,7 +222,7 @@ A user's edit must survive any sync conflict.
 
 ## Journal: `.events/<mission>.jsonl`
 
-One JSON object per line, append-only. Transitions (`kind: "transition"`: `event`, `from`, `to`, `actor`, `actorKind`, `reason`) and replan steps:
+One JSON object per line, append-only. Transitions (`kind: "transition"`: `event`, `from`, `to`, `actor`, `actorKind`, `reason`; `event: "reopen"` only comes from an approved replan) and replan steps:
 
 ```json
 {

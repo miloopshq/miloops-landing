@@ -1,4 +1,5 @@
 import { $, $$ } from './dom';
+import { initPhoneMenu } from './phoneMenu';
 
 export function initNav() {
   const nav = $('#nav');
@@ -8,6 +9,7 @@ export function initNav() {
   window.addEventListener('scroll', update, { passive: true });
   markCurrent(nav);
   initNavMenus(nav);
+  initPhoneMenu(nav);
 }
 
 /** Marks the link to the page you're on (and its menu button), so the nav shows where you are. */
