@@ -20,12 +20,12 @@ Without the file, the defaults apply. Personal choices (channel, quiet hours) li
 
 ## Keys
 
-| Key             | Type                   | Default   |                                                                                           |
-| --------------- | ---------------------- | --------- | ----------------------------------------------------------------------------------------- |
-| `v`             | `1`                    | required  | File format version.                                                                      |
-| `interrupt`     | number 0–200           | `70`      | Items scoring at or above this notify actively; the rest wait in the list and the digest. |
-| `digestMinutes` | minutes 0–10080        | `60`      | Digest cadence; `0` turns it off.                                                         |
-| `weights`       | object of kind → 0–100 | see below | How much each kind counts. Kinds you leave out keep their default.                        |
+| Key             | Type                   | Default   |                                                                                                  |
+| --------------- | ---------------------- | --------- | ------------------------------------------------------------------------------------------------ |
+| `v`             | `1`                    | required  | File format version.                                                                             |
+| `interrupt`     | number 0–200           | `70`      | Items scoring at or above this notify actively; the rest wait in the list and the digest.        |
+| `digestMinutes` | minutes 0–10080        | `60`      | How often Slack sends each mission's digest of non-urgent items, re-read live; `0` turns it off. |
+| `weights`       | object of kind → 0–100 | see below | How much each kind counts. Kinds you leave out keep their default.                               |
 
 ### Default weights
 

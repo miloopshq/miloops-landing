@@ -23,14 +23,14 @@ When an agent finds that an assumption is wrong, it calls `challenge_assumption`
 | ------------------------------------- | ---------------------------------------------------------------------------- |
 | `add_ticket`                          | Adds a ticket (`ref`, `title`, `type`, `blockedBy` can name other new refs). |
 | `cancel_ticket`                       | Cancels a ticket, with a reason.                                             |
-| `edit_ticket`                         | Revises a ticket. In this version it posts the revision as a comment.        |
-| `rewire`                              | Adds blockers (`addBlockedBy`).                                              |
+| `edit_ticket`                         | Replaces a ticket's title and/or body, and leaves an audit comment.          |
+| `rewire`                              | Adds and/or removes blockers (`addBlockedBy`, `removeBlockedBy`).            |
 | `supersede_decision`                  | Replaces a decision with a new answer and rationale.                         |
 | `update_destination`                  | Changes what done looks like.                                                |
 | `add_unspecified`, `add_out_of_scope` | Adds a line to those sections.                                               |
-| `reopen`                              | Reopens done work. In this version it adds a follow-up ticket.               |
+| `reopen`                              | Puts a done or cancelled ticket back in the queue (ready), as the operator.  |
 
-MILOOPS validates the proposal (unknown refs, cycles, edits to done or cancelled tickets, duplicate refs; each error names the change), computes a before/after diff, and **freezes** the tickets it touches: agents can't claim them until you decide. A new proposal from the same agent replaces its earlier pending one. Agents keep working on other tickets and check `replan_status`.
+MILOOPS validates the proposal (unknown refs, cycles after every added and removed edge, removing an edge that isn't there, edits to done or cancelled tickets, duplicate refs; each error names the change), computes a before/after diff, and **freezes** the tickets it touches: agents can't claim them until you decide. A new proposal from the same agent replaces its earlier pending one. Agents keep working on other tickets and check `replan_status`.
 
 ## Challenge the destination
 

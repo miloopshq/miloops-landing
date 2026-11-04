@@ -20,7 +20,8 @@ The app asks for these bot scopes: `commands`, `chat:write`, `im:write`, `channe
 
 ## What it does
 
-- **Questions:** an interrupting question becomes its own message with answer buttons. Others go into the mission's digest as a line, to answer in MILOOPS. With channel `none`, everything goes to the digest. See [Waiting on you](/docs/waiting-on-you/).
+- **Questions:** an interrupting question becomes its own message with answer buttons. Others go into the mission's digest as a line, to answer in MILOOPS. With channel `none`, everything goes to the digest.
+- **Digest:** everything that doesn't interrupt goes out as one message per mission every `digestMinutes` from [attention.json](/docs/attention-json/) (default 60; the first one for a mission goes out right away). `0` turns digest messages off; Waiting on you still has everything. See [Waiting on you](/docs/waiting-on-you/).
 - **Approvals:** sign off verified work from Slack.
 - **Notifications:** to a DM or a channel, for the events you pick: `awaiting`, `blocked`, `mission.done` (default) and `resolved`, with full detail or titles only.
 - **`/milo` slash command:** `decide [text]`, `status [mission]`, `inbox`, `help`.

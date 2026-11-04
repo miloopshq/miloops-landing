@@ -13,7 +13,7 @@ The claim result returns `workspace: { path, branch, base }`, and the agent edit
 
 Outside a git repo, or in a repo with no commits, the claim still succeeds and the result explains why there's no workspace (`workspaceNote`).
 
-There is no cleanup button yet: remove old worktrees yourself (`git worktree remove <path>`).
+**Removing a finished workspace:** in **Settings → Workspaces** (which lists every worktree as active or finished) or on a closed ticket in the inspector, choose **Remove workspace**. It runs `git worktree remove` and keeps the branch. It refuses while the ticket is still claimed and never touches your main checkout; if the worktree has uncommitted changes it asks first. Over HTTP: `POST /workspaces/remove { mapId, ticketId, force? }`.
 
 ## Overlap warnings
 
