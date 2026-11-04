@@ -1,0 +1,47 @@
+{
+  "sections": [
+    {
+      "title": "Getting started",
+      "pages": [
+        { "slug": "introduction", "title": "Introduction" },
+        { "slug": "install", "title": "Install" },
+        { "slug": "connect-your-agent", "title": "Connect your agent" },
+        { "slug": "first-mission", "title": "Your first mission" }
+      ]
+    },
+    {
+      "title": "Concepts",
+      "pages": [
+        { "slug": "missions-and-tickets", "title": "Missions and tickets" },
+        { "slug": "miloops-folder", "title": "The .miloops folder" },
+        { "slug": "discovery-and-knowledge", "title": "Discovery and knowledge" },
+        { "slug": "waiting-on-you", "title": "Waiting on you" },
+        { "slug": "verification", "title": "Verification and criteria" },
+        { "slug": "adaptive-missions", "title": "Assumptions and replans" },
+        { "slug": "parallel-work", "title": "Parallel work" }
+      ]
+    },
+    {
+      "title": "Configuration",
+      "pages": [
+        { "slug": "verification-json", "title": "verification.json" },
+        { "slug": "policy-json", "title": "policy.json" },
+        { "slug": "attention-json", "title": "attention.json" },
+        { "slug": "workspaces-json", "title": "workspaces.json" },
+        { "slug": "personal-settings", "title": "Personal settings" },
+        { "slug": "trackers", "title": "GitHub Issues and Linear" },
+        { "slug": "slack", "title": "Slack" }
+      ]
+    },
+    {
+      "title": "Reference",
+      "pages": [
+        { "slug": "cli", "title": "CLI commands" },
+        { "slug": "milo-commands", "title": "/milo commands" },
+        { "slug": "mcp-tools", "title": "MCP tools" },
+        { "slug": "file-formats", "title": "File formats" },
+        { "slug": "environment-variables", "title": "Environment variables" }
+      ]
+    }
+  ]
+}

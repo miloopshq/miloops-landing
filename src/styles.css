@@ -369,6 +369,79 @@ code {
 .nav__links a[aria-current='page'] {
   color: var(--text-hi);
 }
+/* "Product" ▾: opens on hover, keyboard focus, or a tap (scroll.ts toggles .is-open). */
+.nav__group {
+  position: relative;
+}
+.nav__group-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  letter-spacing: inherit;
+  cursor: pointer;
+}
+.nav__group-btn svg {
+  width: 9px;
+  height: 6px;
+  transition: transform 0.2s var(--ease);
+}
+.nav__group:hover .nav__group-btn,
+.nav__group:focus-within .nav__group-btn,
+.nav__group.is-open .nav__group-btn,
+.nav__group.is-current .nav__group-btn {
+  color: var(--text-hi);
+}
+.nav__menu {
+  position: absolute;
+  top: 100%;
+  left: -14px;
+  display: grid;
+  min-width: 190px;
+  padding: 6px;
+  margin-top: 10px;
+  border: 1px solid var(--line-2);
+  background: var(--bg-2);
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-4px);
+  transition:
+    opacity 0.15s var(--ease),
+    transform 0.15s var(--ease),
+    visibility 0.15s;
+}
+/* A bridge over the gap, so the menu stays open while the pointer moves down to it. */
+.nav__menu::before {
+  content: '';
+  position: absolute;
+  inset: -12px 0 auto;
+  height: 12px;
+}
+.nav__group:hover .nav__menu,
+.nav__group:focus-within .nav__menu,
+.nav__group.is-open .nav__menu {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+}
+.nav__group:hover .nav__group-btn svg,
+.nav__group.is-open .nav__group-btn svg {
+  transform: rotate(180deg);
+}
+.nav__menu a {
+  padding: 8px 10px;
+  white-space: nowrap;
+}
+.nav__menu a:hover,
+.nav__menu a:focus-visible {
+  background: rgba(var(--accent-rgb), 0.08);
+  outline: none;
+}
 .nav__cta {
   margin-left: auto;
   display: flex;

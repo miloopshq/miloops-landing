@@ -6,3 +6,8 @@ capture-frames
 capture/
 .DS_Store
 *.log
+# Generated from content/docs by scripts/docs/generate.mjs
+/docs/
+/public/docs/
+/public/llms.txt
+/public/llms-full.txt

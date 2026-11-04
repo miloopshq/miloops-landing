@@ -4,10 +4,21 @@
       <span class="brand__milo" data-milo-nav aria-hidden="true"></span>
     </a>
     <nav class="nav__links" aria-label="Main">
-      <a href="/#how">How it works</a>
-      <a href="/features/">Features</a>
-      <a href="/specialists/">Specialists</a>
+      <div class="nav__group">
+        <button class="nav__group-btn" type="button" aria-expanded="false" aria-controls="nav-product">
+          Product
+          <svg viewBox="0 0 10 6" aria-hidden="true">
+            <path d="M1 1l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.4" />
+          </svg>
+        </button>
+        <div class="nav__menu" id="nav-product">
+          <a href="/#how">How it works</a>
+          <a href="/features/">Features</a>
+          <a href="/specialists/">Specialists</a>
+        </div>
+      </div>
       <a href="/cloud/">Cloud <span class="nav__soon">soon</span></a>
+      <a href="/docs/">Docs</a>
       <a href="/#faq">FAQ</a>
     </nav>
     <div class="nav__cta">
