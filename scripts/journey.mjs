@@ -99,8 +99,8 @@ await wait(5000);
 await page.screenshot({ path: join(framesDir, 'poster.png') });
 
 // An agent asks; answer in the inbox.
-await caption('During the day · an agent asks', 'When an agent needs you, its ticket turns red. Answer in the inbox.');
-await page.locator('.inbox-list li button').first().click({ timeout: 20000 });
+await caption('During the day · an agent asks', 'Everything that needs you, most important first. Answer in a click.');
+await page.locator('.att-item.k-question:not(.u-fyi) > button').first().click({ timeout: 20000 });
 await chip().waitFor({ timeout: 20000 });
 await wait(2600);
 await chip().click();
@@ -138,6 +138,16 @@ await page.locator('.dv-row button').first().click();
 await caption('Existing project · decisions', 'Every answer is logged with its reasoning.');
 await wait(4000);
 await page.locator('.decisions-btn').click();
+
+// A finding broke an assumption: the agent proposes a new plan, previewed on the map, and you approve it.
+await caption('When the facts change', 'An agent proposes a new plan. See it on the map before anything moves.');
+await page.locator('.replan-banner').waitFor({ timeout: 15000 });
+await wait(3200);
+await page.locator('.replan-banner button').first().click();
+await page.locator('.replan-dialog').waitFor();
+await caption('When the facts change', 'Why, the evidence and every change. Nothing happens until you approve.');
+await wait(4500);
+await page.locator('.replan-dialog button', { hasText: 'Close' }).click();
 
 await term(
   'fieldnote-app — claude',

@@ -116,7 +116,7 @@ await wait(1500);
 await page.locator('.node', { hasText: 'silent auto-merge' }).first().click();
 await wait(1500);
 // MILO explaining the map from its info icon: the speech-bubble hint, mid-sentence.
-await page.locator('.map-zone .info-tip').hover();
+await page.locator('.map-zone .info-tip').first().hover();
 await wait(1400);
 await shot('command-center-overview');
 await page.mouse.move(size.width / 2, size.height - 4);
@@ -139,13 +139,18 @@ await zoom('flow-05-new-mission', ['.dialog'], { aspect: 16 / 10 });
 await page.keyboard.press('Escape');
 await wait(600);
 
-await page.locator('.inbox-list li button').first().click();
+// Everything that needs you, ranked: questions, the new plan, the brief, a risky change, knowledge to review.
+await page.locator('.attention-queue .att-item.k-question').first().waitFor({ timeout: 20000 });
+await wait(1200);
+await zoom('command-center-queue', ['.inbox-part'], { aspect: 4 / 5, pad: 0 });
+
+await page.locator('.att-item.k-question:not(.u-fyi) > button').first().click();
 await chip().waitFor({ timeout: 20000 });
 await wait(1500);
 await zoom('flow-07-waiting-on-you', ['.inbox .comms'], { aspect: 16 / 10 });
 await chip().click();
 await agentStep('asking:', 2);
-await page.locator('.inbox-list li button').first().click();
+await page.locator('.att-item.k-question:not(.u-fyi) > button').first().click();
 await chip().waitFor({ timeout: 20000 });
 await wait(1500);
 // A taller window shows the whole conversation with the suggested replies.
@@ -192,6 +197,25 @@ await page.locator('.node', { hasText: 'Instrument current' }).first().click();
 await page.locator('.criteria-section').waitFor({ timeout: 15000 });
 await wait(1000);
 await zoom('command-center-criteria', ['.inspector'], { aspect: 4 / 5, pad: 0 });
+
+// A proposed new plan: the map preview, then the review dialog.
+await page.locator('.replan-banner').waitFor({ timeout: 15000 });
+await page.locator('.node.mark-added').first().waitFor({ timeout: 15000 });
+await wait(600);
+await zoom('command-center-replan-map', ['.map-zone'], { aspect: 16 / 10 });
+await page.locator('.replan-banner button').first().click();
+await page.locator('.replan-dialog').waitFor();
+await wait(600);
+await zoom('command-center-replan', ['.replan-dialog'], { aspect: 16 / 10, pad: 24 });
+await page.locator('.replan-dialog button', { hasText: 'Close' }).click();
+
+// What always needs you: Settings → Risk policy.
+await page.getByRole('button', { name: 'Settings', exact: true }).click();
+const risk = page.locator('.set-sec', { hasText: 'Risk policy' });
+await risk.scrollIntoViewIfNeeded();
+await wait(600);
+await zoom('command-center-risk', ['.set-sec:has-text("Risk policy")'], { aspect: 4 / 3, pad: 16 });
+await page.keyboard.press('Escape');
 
 // Phone view of the same project.
 const cdp = await ctx.newCDPSession(page);
