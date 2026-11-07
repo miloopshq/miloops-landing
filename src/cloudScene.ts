@@ -1,8 +1,8 @@
-import { mountMilo } from '@miloops-hq/milo-avatar/mount';
+import { mountScout } from '@teamtrail/scout-avatar/mount';
 import { $, $$ } from './dom';
 
 /**
- * /cloud page art, in the same pixel style as MILO: clouds are drawn on a pixel grid from a few overlapping
+ * /cloud page art, in the same pixel style as Scout: clouds are drawn on a pixel grid from a few overlapping
  * circles (outline, fill, shade and a rim highlight), and the laptop and phone are small hand-drawn sprites.
  * Everything renders to crisp SVG rects; motion is CSS, off with reduced motion.
  */
@@ -10,8 +10,8 @@ import { $, $$ } from './dom';
 type Palette = Record<string, string>;
 const SVG = 'http://www.w3.org/2000/svg';
 
-const CLOUD: Palette = { o: '#4d6b73', w: '#dfeaed', s: '#a9c0c6', h: '#ffffff' };
-const DEVICE: Palette = { o: '#4d6b73', d: '#0d1a1e', b: '#16323a', a: '#84b6c2', k: '#2a454c' };
+const CLOUD: Palette = { o: '#3a403c', w: '#dfeaed', s: '#a9c0c6', h: '#ffffff' };
+const DEVICE: Palette = { o: '#3a403c', d: '#14241f', b: '#18302a', a: '#6fbf8f', k: '#2a454c' };
 
 /** Pixel rows of a cloud `w`×`h`, from circles `[cx, cy, r]` in pixel units, on a flat base from `x0` to `x1`
  * covering the last `baseH` rows, so the bottom reads as one solid line. */
@@ -71,7 +71,7 @@ export function pixelSvg(rows: string[], palette: Palette, scale: number): SVGSV
   return svg;
 }
 
-/** Cloud shapes: a big one for MILO to sit on, and small ones for the sky. */
+/** Cloud shapes: a big one for Scout to sit on, and small ones for the sky. */
 const BIG = cloudRows(
   46,
   17,
@@ -146,9 +146,9 @@ const PHONE = [
 
 const LINES = ['Agents are on it', "I'll ping your phone", 'Close the laptop', 'Only the calls that matter'];
 
-/** MILO with a short line every few seconds, like the nav mark. */
-function talkingMilo(host: HTMLElement, size: number, reducedMotion: boolean) {
-  const h = mountMilo(host, { size, state: 'idle', framed: false });
+/** Scout with a short line every few seconds, like the nav mark. */
+function talkingScout(host: HTMLElement, size: number, reducedMotion: boolean) {
+  const h = mountScout(host, { size, state: 'idle', framed: false });
   if (reducedMotion) return;
   let i = 0;
   const talk = () =>
@@ -163,25 +163,25 @@ function talkingMilo(host: HTMLElement, size: number, reducedMotion: boolean) {
 }
 
 export function initCloudScene(reducedMotion: boolean) {
-  // Hero: MILO on the big cloud.
+  // Hero: Scout on the big cloud.
   for (const stage of $$('[data-cloud-stage]')) {
     const cloud = $('[data-cloud-big]', stage);
     if (cloud) cloud.appendChild(pixelSvg(BIG, CLOUD, Number(cloud.dataset.scale ?? 7)));
-    const milo = $('[data-cloud-milo]', stage);
-    if (milo) talkingMilo(milo, Number(milo.dataset.size ?? 3), reducedMotion);
+    const scout = $('[data-cloud-scout]', stage);
+    if (scout) talkingScout(scout, Number(scout.dataset.size ?? 3), reducedMotion);
   }
   // Sky: small clouds drifting behind the copy; each element picks a shape and a pixel size.
   for (const el of $$('[data-cloud-small]')) {
     const shape = SMALL[Number(el.dataset.cloudSmall ?? 0) % SMALL.length];
     el.appendChild(pixelSvg(shape, CLOUD, Number(el.dataset.scale ?? 4)));
   }
-  // Journey strip: sleeping laptop → MILO's cloud → phone.
+  // Journey strip: sleeping laptop → Scout's cloud → phone.
   const laptop = $('[data-px-laptop]');
   if (laptop) laptop.appendChild(pixelSvg(LAPTOP, DEVICE, 6));
   const phone = $('[data-px-phone]');
   if (phone) phone.appendChild(pixelSvg(PHONE, DEVICE, 6));
   const mid = $('[data-cloud-mid]');
   if (mid) mid.appendChild(pixelSvg(SMALL[1], CLOUD, 5));
-  const midMilo = $('[data-cloud-mid-milo]');
-  if (midMilo) mountMilo(midMilo, { size: 1.5, state: reducedMotion ? 'idle' : 'thinking', framed: false });
+  const midScout = $('[data-cloud-mid-scout]');
+  if (midScout) mountScout(midScout, { size: 1.5, state: reducedMotion ? 'idle' : 'thinking', framed: false });
 }

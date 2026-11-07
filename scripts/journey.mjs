@@ -1,9 +1,9 @@
-// Renders the hero video public/media/landing-journey-720.mp4 (and its poster): "a day with MILOOPS".
-// The command center is the real app, driven live; terminal and Claude Code scenes, chapter labels and
+// Renders the hero video public/media/landing-journey-720.mp4 (and its poster): "a day with Teamtrail".
+// The Lookout is the real app, driven live; terminal and Claude Code scenes, chapter labels and
 // captions are an overlay in the same page (journey/stage.mjs). Frames come from a CDP screencast and
 // are encoded with ffmpeg (needed on PATH).
-// It runs on a real project (lib/realProject.mjs): the dev seed, the built `miloops` server and real MCP agents.
-// Run: npm run build -w miloops-cli in ../miloops (once), then `npm run journey` here.
+// It runs on a real project (lib/realProject.mjs): the dev seed, the built `teamtrail` server and real MCP agents.
+// Run: npm run build -w teamtrail in ../teamtrail (once), then `npm run journey` here.
 // Env: CHROME_PATH (default /usr/local/bin/google-chrome).
 import { execFileSync } from 'node:child_process';
 import { mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
@@ -24,12 +24,12 @@ process.on('exit', () => project.stop());
 const agentStep = async (text, times = 1) => {
   for (let t = 0; t < 240 && project.agentLog().split(text).length - 1 < times; t++) await wait(500);
 };
-const milo = `data:image/png;base64,${readFileSync(join(root, 'scripts/assets/milo-512.png')).toString('base64')}`;
+const scout = `data:image/png;base64,${readFileSync(join(root, 'scripts/assets/scout-512.png')).toString('base64')}`;
 
 const browser = await chromium.launch({ executablePath: process.env.CHROME_PATH ?? '/usr/local/bin/google-chrome' });
 const page = await (await browser.newContext({ viewport: size })).newPage();
 page.on('pageerror', (e) => console.log('pageerror:', e.message));
-await page.addInitScript(installStage, milo);
+await page.addInitScript(installStage, scout);
 const wait = (ms) => page.waitForTimeout(ms);
 const stage = (fn, ...args) => page.evaluate(([f, a]) => window.__stage[f](...a), [fn, args]);
 const caption = (label, text) => stage('caption', label, text);
@@ -50,7 +50,7 @@ const setVisible = (v) =>
 await page.addInitScript(() => {
   if (sessionStorage.getItem('journey-init')) return;
   sessionStorage.setItem('journey-init', '1');
-  const key = 'miloops.prefs';
+  const key = 'teamtrail.prefs';
   const prefs = JSON.parse(localStorage.getItem(key) || '{}');
   localStorage.setItem(key, JSON.stringify({ ...prefs, briefing: { enabled: true, awayMinutes: 0.05 } }));
 });
@@ -79,13 +79,13 @@ await term('fieldnote-app — zsh', SETUP, 'Setup once', 'Install once. One comm
 await term(
   'fieldnote-app — claude',
   FRAME,
-  'New project · frame the mission',
-  'Type your idea in Claude Code. MILO asks a few questions to frame the mission.',
+  'New project · frame the trail',
+  'Type your idea in Claude Code. Scout asks a few questions to frame the trail.',
 );
 
-// The mission MILO charted, live: agents working, one waiting on you.
+// The trail Scout charted, live: agents working, one waiting on you.
 await stage('hide');
-// The away threshold is seconds long here: keep the operator "present" while the tab is visible. Hiding the
+// The away threshold is seconds long here: keep the trail lead "present" while the tab is visible. Hiding the
 // tab still counts as away, which is what opens the briefing later.
 await page.evaluate(() => setInterval(() => window.dispatchEvent(new Event('pointermove')), 1500));
 await setVisible(true);
@@ -94,7 +94,7 @@ await page
   .click({ timeout: 3000 })
   .catch(() => {});
 await agentStep('asking:');
-await caption('New project · mission map', 'MILO maps the mission. Agents pick up every ticket that isn’t blocked.');
+await caption('New project · trail map', 'Scout maps the trail. Agents pick up every ticket that isn’t blocked.');
 await wait(5000);
 await page.screenshot({ path: join(framesDir, 'poster.png') });
 
@@ -119,7 +119,7 @@ await stage('hide');
 await agentStep('asking:', 2);
 await wait(1500);
 await setVisible(true);
-await caption('Existing project · briefing', 'Back after a break? MILO briefs you on what’s done and what needs you.');
+await caption('Existing project · briefing', 'Back after a break? Scout briefs you on what’s done and what needs you.');
 await wait(4500);
 await page
   .getByRole('button', { name: 'Dismiss' })
@@ -130,24 +130,26 @@ await page
   });
 // Keep the briefing closed for the rest of the run.
 await page.evaluate(() => {
-  const prefs = JSON.parse(localStorage.getItem('miloops.prefs') || '{}');
-  localStorage.setItem('miloops.prefs', JSON.stringify({ ...prefs, briefing: { enabled: false, awayMinutes: 15 } }));
+  const prefs = JSON.parse(localStorage.getItem('teamtrail.prefs') || '{}');
+  localStorage.setItem('teamtrail.prefs', JSON.stringify({ ...prefs, briefing: { enabled: false, awayMinutes: 15 } }));
 });
+await page.getByRole('button', { name: /^Records/ }).click();
 await page.locator('.decisions-btn').click();
 await page.locator('.dv-row button').first().click();
 await caption('Existing project · decisions', 'Every answer is logged with its reasoning.');
 await wait(4000);
+await page.getByRole('button', { name: /^Records/ }).click();
 await page.locator('.decisions-btn').click();
 
 // A finding broke an assumption: the agent proposes a new plan, previewed on the map, and you approve it.
 await caption('When the facts change', 'An agent proposes a new plan. See it on the map before anything moves.');
-await page.locator('.replan-banner').waitFor({ timeout: 15000 });
+await page.locator('.reroute-banner').waitFor({ timeout: 15000 });
 await wait(3200);
-await page.locator('.replan-banner button').first().click();
-await page.locator('.replan-dialog').waitFor();
+await page.locator('.reroute-banner button').first().click();
+await page.locator('.reroute-dialog').waitFor();
 await caption('When the facts change', 'Why, the evidence and every change. Nothing happens until you approve.');
 await wait(4500);
-await page.locator('.replan-dialog button', { hasText: 'Close' }).click();
+await page.locator('.reroute-dialog button', { hasText: 'Close' }).click();
 
 await term(
   'fieldnote-app — claude',
@@ -155,12 +157,12 @@ await term(
   'Existing project · resume',
   'Resume, and work picks up where it left off.',
 );
-await term('fieldnote-app — claude', CHECK_IN, 'From Claude Code', 'Or check in with /milo status and /milo inbox.');
+await term('fieldnote-app — claude', CHECK_IN, 'From Claude Code', 'Or check in with /scout status and /scout inbox.');
 await stage('hide');
-await caption('Every mission', 'Running several missions? Switch in one click.');
+await caption('Every trail', 'Running several trails? Switch in one click.');
 await wait(700);
 await page.keyboard.press('Escape');
-await page.locator('.mission-btn').click({ force: true });
+await page.locator('.trail-btn').click({ force: true });
 await wait(2600);
 await page.keyboard.press('Escape');
 await caption('', '');

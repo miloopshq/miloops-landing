@@ -1,34 +1,34 @@
-// Overlay injected into the command-center page while the journey records: chapter label + caption,
+// Overlay injected into the lookout page while the journey records: chapter label + caption,
 // full-screen terminal / Claude Code windows that type their lines, and the title and end cards.
 // Runs in the browser (page.addInitScript), so it must stay self-contained.
-export function installStage(milo) {
+export function installStage(scout) {
   const css = `
   #stage-cap{position:fixed;left:50%;bottom:34px;transform:translateX(-50%);z-index:9999;display:flex;flex-direction:column;
     align-items:center;gap:10px;pointer-events:none;transition:opacity .35s}
-  #stage-cap b{font:500 13px 'IBM Plex Sans Variable',sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#c98b5e}
-  #stage-cap span{font:500 22px 'IBM Plex Sans Variable',system-ui,sans-serif;color:#eef4f5;padding:12px 22px;background:rgba(5,9,11,.92);
-    border:1px solid rgba(128,164,172,.3);box-shadow:0 18px 50px rgba(0,0,0,.6)}
-  #stage-ov{position:fixed;inset:0;z-index:9998;background:#05090b;display:grid;place-items:center;transition:opacity .35s}
+  #stage-cap b{font:500 13px 'Figtree Variable',sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#e8833a}
+  #stage-cap span{font:500 22px 'Figtree Variable',system-ui,sans-serif;color:#eef4f5;padding:12px 22px;background:rgba(5,9,11,.92);
+    border:1px solid rgba(76,78,58,.3);box-shadow:0 18px 50px rgba(58,52,34,.28)}
+  #stage-ov{position:fixed;inset:0;z-index:9998;background:#ede7d2;display:grid;place-items:center;transition:opacity .35s}
   #stage-ov.off{opacity:0;pointer-events:none}
-  .st-win{width:1180px;height:640px;margin-bottom:90px;border:1px solid rgba(128,164,172,.28);background:#0a1215;display:flex;flex-direction:column;
-    box-shadow:0 40px 100px rgba(0,0,0,.7)}
-  .st-bar{height:38px;display:flex;align-items:center;gap:8px;padding:0 14px;border-bottom:1px solid rgba(128,164,172,.16);
-    font:400 13px 'IBM Plex Sans Variable',sans-serif;color:#8598a0}
+  .st-win{width:1180px;height:640px;margin-bottom:90px;border:1px solid rgba(76,78,58,.28);background:#0a1215;display:flex;flex-direction:column;
+    box-shadow:0 40px 100px rgba(58,52,34,.35)}
+  .st-bar{height:38px;display:flex;align-items:center;gap:8px;padding:0 14px;border-bottom:1px solid rgba(76,78,58,.16);
+    font:400 13px 'Figtree Variable',sans-serif;color:#8598a0}
   .st-bar i{width:11px;height:11px;border-radius:50%;background:#2a3437}
   .st-bar em{margin:0 auto;font-style:normal;transform:translateX(-30px)}
   .st-body{flex:1;padding:22px 26px;overflow:hidden;font:400 19px/1.6 ui-monospace,Menlo,monospace;color:#c9d6d8;white-space:pre-wrap}
-  .st-body .dim{color:#6f8288}.st-body .ok{color:#84b6c2}.st-body .acc{color:#c98b5e}.st-body .milo{color:#e1e9ea}
-  .st-body .user{color:#eef4f5}.st-body .box{display:inline-block;border:1px solid #c98b5e;padding:6px 14px;margin-bottom:6px}
-  .st-cur{display:inline-block;width:10px;height:1.1em;vertical-align:-3px;background:#c98b5e;animation:stb 1s steps(1) infinite}
+  .st-body .dim{color:#6f8288}.st-body .ok{color:#8fbf84}.st-body .acc{color:#e8833a}.st-body .scout{color:#e1e9ea}
+  .st-body .user{color:#eef4f5}.st-body .box{display:inline-block;border:1px solid #e8833a;padding:6px 14px;margin-bottom:6px}
+  .st-cur{display:inline-block;width:10px;height:1.1em;vertical-align:-3px;background:#e8833a;animation:stb 1s steps(1) infinite}
   @keyframes stb{50%{opacity:0}}
   .st-card{display:flex;flex-direction:column;align-items:center;gap:26px;margin-bottom:60px;text-align:center}
   .st-card img{width:170px;height:170px;image-rendering:pixelated}
-  .st-card h1{margin:0;font:400 96px 'Geist Pixel',monospace;letter-spacing:.06em;color:#eef4f5}
-  .st-card h1 span{color:#c98b5e}
-  .st-card p{margin:0;font:400 26px 'IBM Plex Sans Variable',sans-serif;color:#b9c9cc}
-  .st-card code{font:400 28px 'Geist Mono Variable',monospace;color:#eef4f5;padding:14px 24px;border:1px solid rgba(128,164,172,.3)}
-  .st-card code span{color:#c98b5e}
-  .st-card small{font:400 15px 'IBM Plex Sans Variable',sans-serif;letter-spacing:.18em;color:#8598a0;text-transform:uppercase}`;
+  .st-card h1{margin:0;font:700 96px 'Bricolage Grotesque Variable',sans-serif;color:#1b2620}
+  .st-card h1 span{color:#c8581e}
+  .st-card p{margin:0;font:400 26px 'Figtree Variable',sans-serif;color:#38443c}
+  .st-card code{font:400 28px 'JetBrains Mono Variable',monospace;color:#1b2620;padding:14px 24px;border:1px solid rgba(76,78,58,.3)}
+  .st-card code span{color:#3f6b45}
+  .st-card small{font:400 15px 'Figtree Variable',sans-serif;letter-spacing:.1em;color:#5e6a60;text-transform:uppercase}`;
   const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
   const el = (tag, attrs = {}, html = '') => Object.assign(document.createElement(tag), attrs, { innerHTML: html });
   let cap, ov;
@@ -51,12 +51,12 @@ export function installStage(milo) {
     },
     card(kind) {
       ensure();
-      const word = '<h1>MILO<span>OPS</span></h1>';
+      const word = '<h1>Team<span>trail</span></h1>';
       ov.innerHTML =
         kind === 'title'
-          ? `<div class="st-card"><img src="${milo}" alt="">${word}<p>Mission control for your AI coding agents.</p></div>`
-          : `<div class="st-card"><img src="${milo}" alt="">${word}<code><span>$</span> npx miloops-cli</code>
-             <small>Works with Claude Code, Codex and any MCP agent</small><small>miloops.app</small></div>`;
+          ? `<div class="st-card"><img src="${scout}" alt="">${word}<p>The trail map for your AI coding agents.</p></div>`
+          : `<div class="st-card"><img src="${scout}" alt="">${word}<code><span>$</span> npx teamtrail</code>
+             <small>Works with Claude Code, Codex and any MCP agent</small><small>teamtrail.ai</small></div>`;
       ov.classList.remove('off');
     },
     /** lines: [{ t, cls?, type?, pause? }]; `type` lines are typed after a prompt, the rest appear at once. */

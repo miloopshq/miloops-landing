@@ -1,5 +1,5 @@
-// "Mission field": columns of short bars framing the hero copy. Each bar is a ticket:
-// cyan done, copper a specialist working, white highlights, and a rare red blink that waits on you.
+// "Trail field": columns of short dashes framing the hero copy, like trail marks. Each dash is a ticket:
+// moss done, lake ready, blaze being worked on, and a rare red blink that waits on you.
 // Columns scroll at their own pace, a brightness wave rolls through, and on load they grow outward.
 
 type Options = {
@@ -13,12 +13,20 @@ const BAR_W = 40;
 const BAR_H = 4;
 const PITCH = 10;
 const GAP = 16;
-const COLORS = [
-  [132, 182, 194], // done (cyan)
-  [225, 233, 234], // highlight (white)
-  [196, 138, 98], // working (copper)
-  [255, 77, 66], // waiting on you (red)
-];
+const NIGHT = matchMedia('(prefers-color-scheme: dark)').matches;
+const COLORS = NIGHT
+  ? [
+      [143, 191, 132], // done (moss)
+      [127, 195, 216], // ready (lake)
+      [232, 131, 58], // working (blaze)
+      [255, 107, 92], // waiting on you (red)
+    ]
+  : [
+      [63, 107, 69], // done (moss)
+      [34, 98, 122], // ready (lake)
+      [200, 88, 30], // working (blaze)
+      [196, 48, 31], // waiting on you (red)
+    ];
 const WEIGHTS = [0.6, 0.2, 0.17, 0.03];
 const PATTERN = 96;
 

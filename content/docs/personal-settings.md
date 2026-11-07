@@ -6,9 +6,9 @@ Your own preferences and tokens, kept in your config folder on your machine and 
 
 | Platform     | Path                                                  |
 | ------------ | ----------------------------------------------------- |
-| macOS, Linux | `~/.config/miloops/` (or `$XDG_CONFIG_HOME/miloops/`) |
-| Windows      | `%APPDATA%\miloops\`                                  |
-| Any          | `$MILOOPS_CONFIG_DIR`, when set, wins                 |
+| macOS, Linux | `~/.config/teamtrail/` (or `$XDG_CONFIG_HOME/teamtrail/`) |
+| Windows      | `%APPDATA%\teamtrail\`                                  |
+| Any          | `$TEAMTRAIL_CONFIG_DIR`, when set, wins                 |
 
 | File               | Holds                                                      |
 | ------------------ | ---------------------------------------------------------- |
@@ -41,4 +41,4 @@ The team's threshold and weights are in the repo: [attention.json](/docs/attenti
 
 ## credentials.json
 
-Written by the command center when you save a token in Settings. You can also skip it and use environment variables: see [GitHub Issues and Linear](/docs/trackers/), [Slack](/docs/slack/) and [Environment variables](/docs/environment-variables/).
+Written by the Lookout when you save a token in Settings. You can also skip it and use environment variables: see [GitHub Issues and Linear](/docs/trackers/), [Slack](/docs/slack/) and [Environment variables](/docs/environment-variables/).

@@ -1,4 +1,4 @@
-import { type MiloState, mountMilo } from '@miloops-hq/milo-avatar/mount';
+import { type ScoutState, mountScout } from '@teamtrail/scout-avatar/mount';
 import { initCloudScene } from './cloudScene';
 import { initCmdCycle } from './cmdCycle';
 import { initCopy } from './copy';
@@ -19,12 +19,12 @@ for (const canvas of $$<HTMLCanvasElement>('canvas[data-field]')) {
   });
 }
 
-// Nav mark: the detailed MILO, blinking, with a short line every few seconds.
-const navMilo = $('[data-milo-nav]');
-if (navMilo) {
+// Nav mark: the detailed Scout, blinking, with a short line every few seconds.
+const navScout = $('[data-scout-nav]');
+if (navScout) {
   const lines = ['Standing by', 'Agents on the line', 'Ready when you are'];
   let i = 0;
-  const h = mountMilo(navMilo, { size: 1.25, state: 'idle', framed: false });
+  const h = mountScout(navScout, { size: 1.25, state: 'idle', framed: false });
   const talk = () =>
     h.update({
       speaking: lines[i++ % lines.length],
@@ -36,11 +36,11 @@ if (navMilo) {
   if (!reducedMotion) setTimeout(talk, 2500);
 }
 
-const milo = $('[data-milo]');
-if (milo) mountMilo(milo, { size: 'sm', state: 'idle', framed: false });
-// Specialists: MILO in each role's colour (CSS), each in its own state so the roster feels alive.
+const scout = $('[data-scout]');
+if (scout) mountScout(scout, { size: 'sm', state: 'idle', framed: false });
+// Guides: Scout in each role's colour (CSS), each in its own state so the roster feels alive.
 for (const el of $$('[data-spec]'))
-  mountMilo(el, { size: Number(el.dataset.size ?? 1.5), state: el.dataset.spec as MiloState, framed: false });
+  mountScout(el, { size: Number(el.dataset.size ?? 1.5), state: el.dataset.spec as ScoutState, framed: false });
 
 initCloudScene(reducedMotion);
 initNav();
