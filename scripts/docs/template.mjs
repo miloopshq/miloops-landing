@@ -31,9 +31,9 @@ function head({ title, description, url }) {
     <link rel="icon" href="/media/brand/favicon-32.png" type="image/png" sizes="32x32" />
     <link rel="icon" href="/media/brand/favicon-64.png" type="image/png" sizes="64x64" />
     <link rel="alternate" type="text/markdown" href="${mdUrlFromPage(url)}" />
-${font('/node_modules/@fontsource/geist-pixel/files/geist-pixel-latin-400-normal.woff2')}
-${font('/node_modules/@fontsource-variable/ibm-plex-sans/files/ibm-plex-sans-latin-wght-normal.woff2')}
-${font('/node_modules/@fontsource-variable/geist-mono/files/geist-mono-latin-wght-normal.woff2')}
+${font('/node_modules/@fontsource-variable/bricolage-grotesque/files/bricolage-grotesque-latin-wght-normal.woff2')}
+${font('/node_modules/@fontsource-variable/figtree/files/figtree-latin-wght-normal.woff2')}
+${font('/node_modules/@fontsource-variable/jetbrains-mono/files/jetbrains-mono-latin-wght-normal.woff2')}
     <link rel="stylesheet" href="/src/styles.css" />
     <link rel="stylesheet" href="/src/docs.css" />
   </head>`;

@@ -9,7 +9,7 @@ Static marketing site for [teamtrail.ai](https://teamtrail.ai): Vite + TypeScrip
 
 Shared markup lives in `partials/` (`sprite`, `nav`, `footer`) and is pasted in at build time by `<!-- @include name -->` (see `vite.config.ts`).
 
-Type is Geist Pixel for headlines and labels, IBM Plex Sans for reading and Geist Mono for code, both self-hosted through `@fontsource`. JS adds the hero "trail field" animation (`src/heroField.ts`, paused off-screen, a still frame with reduced motion), the install box that types through `npx teamtrail` and the Claude Code and Codex connect commands (`src/cmdCycle.ts`), the looping explainer video (muted, no controls, paused off-screen), the badge scramble, scroll reveals, copy buttons, the Scout avatar and the waitlist form. The pages read fine without it.
+Type is Bricolage Grotesque for headlines, Figtree for reading and JetBrains Mono for code, both self-hosted through `@fontsource`. JS adds the hero "trail field" animation (`src/heroField.ts`, paused off-screen, a still frame with reduced motion), the install box that types through `npx teamtrail` and the Claude Code and Codex connect commands (`src/cmdCycle.ts`), the looping explainer video (muted, no controls, paused off-screen), the badge scramble, scroll reveals, copy buttons, the Scout avatar and the waitlist form. The pages read fine without it.
 
 ## Run
 
